@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>이미지 크롤링 뷰어</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/static/turn.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>이미지 크롤링 뷰어</h1>
+      <form id="crawl-form">
+        <input type="text" id="keyword" placeholder="키워드 입력" required />
+        <button type="submit">검색</button>
+      </form>
+
+      <div class="book-container">
+        <div id="flipbook"></div>
+      </div>
+
+      <div class="controls">
+        <button id="prev">이전 페이지</button>
+        <button id="next">다음 페이지</button>
+      </div>
+    </div>
+
+    <script>
+      $(function () {
+        $("#crawl-form").on("submit", function (e) {
+          e.preventDefault();
+          const keyword = $("#keyword").val();
+          if (!keyword) return;
+
+          $("#flipbook").html("로딩 중...");
+
+          $.get(`/crawl?query=${encodeURIComponent(keyword)}`, function (data) {
+            const pages = [
+              '<div class="hard">표지</div>',
+              ...data.images.map(
+                (src, i) =>
+                  `<div class="page"><img src="${src}" alt="img${
+                    i + 1
+                  }" style="max-width:100%; max-height:100%"></div>`
+              ),
+              '<div class="hard">끝</div>',
+            ];
+
+            $("#flipbook").html(pages.join(""));
+            $("#flipbook").turn({
+              width: 400,
+              height: 300,
+              autoCenter: true,
+              display: "single",
+              elevation: 50,
+              gradients: true,
+            });
+          }).fail(function (err) {
+            alert(err.responseJSON?.error || "오류 발생");
+          });
+        });
+
+        $("#prev").click(() => $("#flipbook").turn("previous"));
+        $("#next").click(() => $("#flipbook").turn("next"));
+      });
+    </script>
+  </body>
+</html>
