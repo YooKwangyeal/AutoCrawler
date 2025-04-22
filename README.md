@@ -9,9 +9,9 @@ Google, Naver multiprocess image crawler (High Quality & Speed & Customizable)
 
 2. pip install -r requirements.txt
 
-3. Write search keywords in keywords.txt
+3. cd Turn_js_web
 
-4. **Run "main.py"**
+4. python -m uvicorn main:app --reload
 
 5. Files will be downloaded to 'download' directory.
 

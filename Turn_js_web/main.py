@@ -1,17 +1,3 @@
-# 📁 project 구조
-# ├── AutoCrawler/
-# │   ├── main.py (크롤링 로직)
-# │   ├── keywords.txt
-# │   ├── download/ (이미지 저장 폴더)
-# │   ├── webapp/
-# │   │   ├── main.py (FastAPI 서버)
-# │   │   └── static/
-# │   │       ├── index.html
-# │   │       ├── script.js
-# │   │       ├── turn.js
-# │   │       └── style.css
-# │   └── ... (기타 크롤링 코드)
-
 # 🐍 AutoCrawler/webapp/main.py
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
